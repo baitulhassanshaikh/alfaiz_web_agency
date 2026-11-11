@@ -266,99 +266,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     5. Portfolio Filter Bar
+     [REVISION]: Portfolio Filter Bar and Lightbox event handlers removed.
      ========================================================================== */
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const portfolioCards = document.querySelectorAll('.portfolio-card');
-
-  if (filterButtons.length && portfolioCards.length) {
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filterValue = btn.getAttribute('data-filter');
-
-        portfolioCards.forEach(card => {
-          const category = card.getAttribute('data-category');
-          if (filterValue === 'all' || category === filterValue) {
-            card.classList.remove('is-hidden');
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.96)';
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'scale(1)';
-            }, 30);
-          } else {
-            card.classList.add('is-hidden');
-          }
-        });
-      });
-    });
-  }
 
   /* ==========================================================================
-     6. Portfolio Prototype Lightbox (Modal Popup)
-     [REVISION]: Opens full prototype screenshot without blurred text,
-     supports Esc key, close button, and outside click dismissal.
-     ========================================================================== */
-  const lightboxModal = document.getElementById('portfolioLightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxTitle = document.getElementById('lightboxTitle');
-  const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
-  const viewPrototypeBtns = document.querySelectorAll('.btn-view-prototype');
-
-  const openLightbox = (imgSrc, titleText) => {
-    if (!lightboxModal || !lightboxImg) return;
-    lightboxImg.src = imgSrc;
-    lightboxImg.alt = titleText || 'Prototype Screenshot';
-    if (lightboxTitle) {
-      lightboxTitle.textContent = titleText || 'Prototype Preview';
-    }
-    lightboxModal.classList.add('is-active');
-    lightboxModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    if (lightboxCloseBtn) lightboxCloseBtn.focus();
-  };
-
-  const closeLightbox = () => {
-    if (!lightboxModal) return;
-    lightboxModal.classList.remove('is-active');
-    lightboxModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  };
-
-  viewPrototypeBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const imgSrc = btn.getAttribute('data-prototype-src');
-      const titleText = btn.getAttribute('data-prototype-title');
-      openLightbox(imgSrc, titleText);
-    });
-  });
-
-  if (lightboxCloseBtn) {
-    lightboxCloseBtn.addEventListener('click', closeLightbox);
-  }
-
-  if (lightboxModal) {
-    // Close on outside click
-    lightboxModal.addEventListener('click', (e) => {
-      if (e.target === lightboxModal) {
-        closeLightbox();
-      }
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightboxModal.classList.contains('is-active')) {
-        closeLightbox();
-      }
-    });
-  }
-
-  /* ==========================================================================
-     7. Packages "Get Started" Auto-Fill Helper
+     5. Packages "Get Started" Auto-Fill Helper
      ========================================================================== */
   const packageButtons = document.querySelectorAll('.btn-select-package');
   const projectTypeSelect = document.getElementById('projectType');
@@ -383,8 +295,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
-     8. Contact Form AJAX Submission (Formspree to Gmail)
-     [REVISION]: WhatsApp mentions removed; email (YOUR_EMAIL) as primary contact
+     6. FAQ Accordion (Smooth toggle & accessible ARIA)
+     ========================================================================== */
+  const faqQuestions = document.querySelectorAll('.faq-question');
+
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('is-open');
+
+      // Close other open FAQ items
+      document.querySelectorAll('.faq-item.is-open').forEach(openItem => {
+        if (openItem !== item) {
+          openItem.classList.remove('is-open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          const otherAnswer = openItem.querySelector('.faq-answer');
+          if (otherAnswer) otherAnswer.style.maxHeight = null;
+        }
+      });
+
+      // Toggle current item
+      if (isOpen) {
+        item.classList.remove('is-open');
+        question.setAttribute('aria-expanded', 'false');
+        if (answer) answer.style.maxHeight = null;
+      } else {
+        item.classList.add('is-open');
+        question.setAttribute('aria-expanded', 'true');
+        if (answer) answer.style.maxHeight = `${answer.scrollHeight}px`;
+      }
+    });
+  });
+
+  /* ==========================================================================
+     7. Contact Form AJAX Submission (Formspree to Gmail)
+     [REVISION]: WhatsApp mentions removed; email (alfaizablebusines@gmail.com) as primary contact
      ========================================================================== */
   const contactForm = document.getElementById('contactForm');
   const formSuccessAlert = document.getElementById('formSuccessAlert');
@@ -441,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     9. Scroll Reveal Animations (IntersectionObserver)
+     8. Scroll Reveal Animations (IntersectionObserver)
      ========================================================================== */
   const revealElements = document.querySelectorAll('.reveal');
 

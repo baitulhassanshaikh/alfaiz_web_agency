@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth <= 868) {
+        if (window.innerWidth < 992) {
           closeMobileMenu();
         }
       });
@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================================================
      3. Hero Right-Side Prototype Image Slider
-     [REVISION]: Auto-playing 3-slide prototype screenshot carousel (5s interval),
-     prev/next buttons, dot indicators, touch swipe support, and pause on hover.
+     [REVISION]: Re-enable when real prototype screenshots exist in assets/prototypes/
      ========================================================================== */
+  /*
   const heroTrack = document.getElementById('heroSliderTrack');
   const heroSlides = document.querySelectorAll('.hero-slide');
   const heroPrevBtn = document.getElementById('heroSliderPrev');
@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startHeroAutoplay();
   }
+  */
 
   /* ==========================================================================
      4. Animated Stats Counter (IntersectionObserver)
@@ -330,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================================================
      7. Contact Form AJAX Submission (Formspree to Gmail)
-     [REVISION]: WhatsApp mentions removed; email (alfaizablebusines@gmail.com) as primary contact
+     [REVISION]: Phone field & references removed; success message updated
      ========================================================================== */
   const contactForm = document.getElementById('contactForm');
   const formSuccessAlert = document.getElementById('formSuccessAlert');
@@ -366,6 +367,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
+          // [REVISION]: Updated success message after submit
+          formSuccessAlert.textContent = "Thanks! We have received your message and will reply within 24 hours on working days.";
           formSuccessAlert.style.display = 'block';
           contactForm.reset();
           formSuccessAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

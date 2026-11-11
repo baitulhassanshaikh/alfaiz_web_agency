@@ -139,7 +139,7 @@
                             </a>
                         </div>
                     </div>
-                    <!-- [REVISION]: Looping Decorative Workflow Animation Banner (Visual loop only, non-live) -->
+                    <!-- [REVISION]: Looping Decorative Workflow Animation Banner (12s synced loop, non-live) -->
                     <div class="hero-banner-wrapper reveal reveal-up">
                         <div class="workflow-card">
                             <!-- Card Header: ALFAIZ Inbox with window dots on the left -->
@@ -164,40 +164,27 @@
                                     <span>ALFAIZ Inbox</span>
                                 </div>
                             </div>
-                            <!-- Workflow Visual Loop Area -->
+                            <!-- Workflow Messages Area (12s synced loop) -->
                             <div class="workflow-card-body">
-                                <!-- Step a & b: Client message bubble + envelope pulse -->
-                                <div class="workflow-bubble-row client-row">
+                                <div class="workflow-messages-list">
+                                    <!-- 0s - 3s: Client message bubble (slides from left) -->
                                     <div class="workflow-bubble client-bubble">
                                         <p>Hi, I need a website for my business.</p>
                                     </div>
-                                    <div class="workflow-envelope-pulse" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                        >
-                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                            <polyline points="22,6 12,13 2,6"/>
-                                        </svg>
+                                    <!-- 3s - 6s: Design-mode bubble (brand blue from right) -->
+                                    <div class="workflow-bubble agency-bubble bubble-design">
+                                        <p>Creating layout and brand colors...</p>
+                                    </div>
+                                    <!-- 6s - 9s: Development bubble (brand blue from right) -->
+                                    <div class="workflow-bubble agency-bubble bubble-dev">
+                                        <p>Building pages, forms, and backend...</p>
+                                    </div>
+                                    <!-- 9s - 11s: Launch bubble (brand blue from right) -->
+                                    <div class="workflow-bubble agency-bubble bubble-launch">
+                                        <p>Ready to go live. Thanks! We'll reply within 1 working day.</p>
                                     </div>
                                 </div>
-                                <!-- Step c: Three typing dots in bubble on the right -->
-                                <div class="workflow-typing-row" aria-hidden="true">
-                                    <div class="workflow-typing-indicator">
-                                        <span class="typing-dot"></span>
-                                        <span class="typing-dot"></span>
-                                        <span class="typing-dot"></span>
-                                    </div>
-                                </div>
-                                <!-- Step d: Reply bubble in brand blue sliding from right -->
-                                <div class="workflow-bubble-row agency-row">
-                                    <div class="workflow-bubble agency-bubble">
-                                        <p>Thanks! We'll reply within 1 working day.</p>
-                                    </div>
-                                </div>
-                                <!-- Step e: Stage tracker lights up in turn: Consultation, Design, Development, Launch -->
+                                <!-- Stage tracker synced with bubbles -->
                                 <div class="workflow-tracker-wrap" aria-hidden="true">
                                     <div class="workflow-tracker-line">
                                         <div class="workflow-tracker-progress"></div>
@@ -205,6 +192,7 @@
                                     <div class="workflow-stages">
                                         <div class="workflow-stage-item stage-1">
                                             <div class="stage-dot">
+                                                <div class="stage-dot-fill"></div>
                                                 <svg
                                                     viewBox="0 0 24 24"
                                                     fill="none"
@@ -218,6 +206,7 @@
                                         </div>
                                         <div class="workflow-stage-item stage-2">
                                             <div class="stage-dot">
+                                                <div class="stage-dot-fill"></div>
                                                 <svg
                                                     viewBox="0 0 24 24"
                                                     fill="none"
@@ -231,6 +220,7 @@
                                         </div>
                                         <div class="workflow-stage-item stage-3">
                                             <div class="stage-dot">
+                                                <div class="stage-dot-fill"></div>
                                                 <svg
                                                     viewBox="0 0 24 24"
                                                     fill="none"
@@ -244,6 +234,7 @@
                                         </div>
                                         <div class="workflow-stage-item stage-4">
                                             <div class="stage-dot">
+                                                <div class="stage-dot-fill"></div>
                                                 <svg
                                                     viewBox="0 0 24 24"
                                                     fill="none"
@@ -258,7 +249,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Card Footer: Small logo in footer, not the center -->
+                            <!-- Card Footer: Small logo in footer, no Active badge, no Client Workflow label -->
                             <div class="workflow-card-footer">
                                 <div class="workflow-footer-brand">
                                     <img
@@ -268,14 +259,7 @@
                                         height="28"
                                         class="workflow-mini-logo"
                                     >
-                                    <div class="workflow-footer-text">
-                                        <span class="workflow-brand-title">ALFAIZ Web Agency</span>
-                                        <span class="workflow-brand-tag">Client Workflow</span>
-                                    </div>
-                                </div>
-                                <div class="workflow-footer-status" aria-hidden="true">
-                                    <span class="status-pulse-dot"></span>
-                                    <span>Active</span>
+                                    <span class="workflow-brand-title">ALFAIZ Web Agency</span>
                                 </div>
                             </div>
                         </div>
@@ -1289,7 +1273,7 @@
                         </div>
                         <!-- Right Column: Formspree AJAX Form -->
                         <div class="contact-form-card reveal reveal-up delay-2">
-                            <!-- Formspree Endpoint Placeholder: Replace YOUR_FORMSPREE_ID -->
+                            <!-- Connected Formspree Endpoint: https://formspree.io/f/xljbejzg -->
                             <form action="https://formspree.io/f/xljbejzg" method="POST" id="contactForm">
                                 <!-- [REVISION]: Updated success message -->
                                 <div class="form-alert success" id="formSuccessAlert" role="alert">

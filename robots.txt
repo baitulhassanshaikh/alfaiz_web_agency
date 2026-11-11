@@ -1,0 +1,6 @@
+# robots.txt for ALFAIZ Web Agency
+User-agent: *
+Allow: /
+
+# Sitemap placeholder - replace with your actual production domain
+Sitemap: https://alfaizwebagency.com/sitemap.xml

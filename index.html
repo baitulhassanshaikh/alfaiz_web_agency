@@ -859,87 +859,122 @@
                             A battle-tested 4-step framework that ensures clear communication, rapid delivery, and flawless launch day execution.
                         </p>
                     </div>
-                    <div class="process-timeline">
-                        <!-- Step 1 -->
-                        <div class="process-step reveal reveal-up delay-1">
-                            <div class="step-marker">
-                                <span class="step-num">Step 01</span>
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-                                </svg>
-                            </div>
-                            <div class="step-content">
-                                <h3 class="step-title">Consultation</h3>
-                                <p class="step-desc">
-                                    We analyze your business objectives, international target market, branding guidelines, and essential feature requirements.
-                                </p>
-                            </div>
+                    <!-- [REVISION]: Zig-Zag Process Timeline with Center Line (Desktop 768px+) & Left Edge (Mobile) -->
+                    <div class="process-timeline-wrapper reveal">
+                        <!-- Center vertical blue line: scaleY transform only -->
+                        <div class="process-timeline-line" aria-hidden="true">
+                            <div class="process-timeline-progress"></div>
                         </div>
-                        <!-- Step 2 -->
-                        <div class="process-step reveal reveal-up delay-2">
-                            <div class="step-marker">
-                                <span class="step-num">Step 02</span>
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <path d="M12 20h9"/>
-                                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                                </svg>
+
+                        <div class="process-timeline-list">
+                            <!-- Step 1: Left on desktop -->
+                            <div class="process-timeline-item step-left reveal step-1" data-step="1">
+                                <div class="process-card">
+                                    <div class="step-card-header">
+                                        <span class="step-badge">Step 01</span>
+                                        <h3 class="step-title">Consultation</h3>
+                                    </div>
+                                    <p class="step-desc">
+                                        We analyze your business objectives, international target market, branding guidelines, and essential feature requirements.
+                                    </p>
+                                </div>
+                                <div class="process-node" aria-hidden="true">
+                                    <div class="step-marker">
+                                        <span class="step-num">Step 01</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="process-empty" aria-hidden="true"></div>
                             </div>
-                            <div class="step-content">
-                                <h3 class="step-title">Design</h3>
-                                <p class="step-desc">
-                                    We craft a clean, high-conversion visual layout with generous white space, bold typography, and intuitive customer navigation.
-                                </p>
+
+                            <!-- Step 2: Right on desktop -->
+                            <div class="process-timeline-item step-right reveal step-2" data-step="2">
+                                <div class="process-empty" aria-hidden="true"></div>
+                                <div class="process-node" aria-hidden="true">
+                                    <div class="step-marker">
+                                        <span class="step-num">Step 02</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path d="M12 20h9"/>
+                                            <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="process-card">
+                                    <div class="step-card-header">
+                                        <span class="step-badge">Step 02</span>
+                                        <h3 class="step-title">Design</h3>
+                                    </div>
+                                    <p class="step-desc">
+                                        We craft a clean, high-conversion visual layout with generous white space, bold typography, and intuitive customer navigation.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Step 3 -->
-                        <div class="process-step reveal reveal-up delay-3">
-                            <div class="step-marker">
-                                <span class="step-num">Step 03</span>
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <polyline points="16 18 22 12 16 6"/>
-                                    <polyline points="8 6 2 12 8 18"/>
-                                </svg>
+
+                            <!-- Step 3: Left on desktop -->
+                            <div class="process-timeline-item step-left reveal step-3" data-step="3">
+                                <div class="process-card">
+                                    <div class="step-card-header">
+                                        <span class="step-badge">Step 03</span>
+                                        <h3 class="step-title">Development</h3>
+                                    </div>
+                                    <p class="step-desc">
+                                        We write clean, lightweight HTML, CSS, and vanilla JS code, integrating direct contact flows and payment APIs for peak speed.
+                                    </p>
+                                </div>
+                                <div class="process-node" aria-hidden="true">
+                                    <div class="step-marker">
+                                        <span class="step-num">Step 03</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <polyline points="16 18 22 12 16 6"/>
+                                            <polyline points="8 6 2 12 8 18"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="process-empty" aria-hidden="true"></div>
                             </div>
-                            <div class="step-content">
-                                <h3 class="step-title">Development</h3>
-                                <p class="step-desc">
-                                    We write clean, lightweight HTML, CSS, and vanilla JS code, integrating direct contact flows and payment APIs for peak speed.
-                                </p>
-                            </div>
-                        </div>
-                        <!-- Step 4 -->
-                        <div class="process-step reveal reveal-up delay-4">
-                            <div class="step-marker">
-                                <span class="step-num">Step 04</span>
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                                </svg>
-                            </div>
-                            <div class="step-content">
-                                <h3 class="step-title">Launch</h3>
-                                <p class="step-desc">
-                                    Final QA testing across 375px mobile, tablet, and 1280px desktop, followed by global CDN deployment and post-launch verification.
-                                </p>
+
+                            <!-- Step 4: Right on desktop -->
+                            <div class="process-timeline-item step-right reveal step-4" data-step="4">
+                                <div class="process-empty" aria-hidden="true"></div>
+                                <div class="process-node" aria-hidden="true">
+                                    <div class="step-marker">
+                                        <span class="step-num">Step 04</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="process-card">
+                                    <div class="step-card-header">
+                                        <span class="step-badge">Step 04</span>
+                                        <h3 class="step-title">Launch</h3>
+                                    </div>
+                                    <p class="step-desc">
+                                        Final QA testing across 375px mobile, tablet, and 1280px desktop, followed by global CDN deployment and post-launch verification.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

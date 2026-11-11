@@ -1383,32 +1383,95 @@ ul, ol {
    -------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------
-   9. Process Section (Timeline)
+   9. Process Section (Zig-Zag Timeline with Center Line)
+   [REVISION]:
+   - Desktop (768px+): 4 steps zig-zag across a single vertical center blue line
+     (Step 1 Left, Step 2 Right, Step 3 Left, Step 4 Right)
+   - Line draws down using transform: scaleY only
+   - Step circle lights up (brand blue fill, white icon) when line reaches it
+   - Text cards: white background, 16px radius, soft shadow, padding 24px
+   - Hover: Card lifts 4px with a soft blue glow (desktop only)
    -------------------------------------------------------------------------- */
-.process-timeline {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
+.process-timeline-wrapper {
   position: relative;
-  margin-top: 2rem;
+  max-width: 1060px;
+  margin: 3.5rem auto 0 auto;
 }
 
-.process-timeline::before {
-  content: '';
+/* Center vertical blue line: single line connecting all steps */
+.process-timeline-line {
   position: absolute;
   top: 42px;
-  left: 6%;
-  width: 88%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary-soft) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%);
+  bottom: 42px;
+  left: 50%;
+  width: 4px;
+  transform: translateX(-50%);
+  background: rgba(37, 99, 235, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
   z-index: 1;
 }
 
-.process-step {
+/* Blue center line progress: draws down via transform: scaleY (transform only) */
+.process-timeline-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, var(--color-primary) 0%, #38bdf8 100%);
+  border-radius: 999px;
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Line animation triggered when wrapper or individual steps are revealed */
+.process-timeline-wrapper.is-revealed .process-timeline-progress {
+  transform: scaleY(1);
+}
+
+.process-timeline-wrapper:has(.step-1.is-revealed) .process-timeline-progress {
+  transform: scaleY(0.28);
+}
+
+.process-timeline-wrapper:has(.step-2.is-revealed) .process-timeline-progress {
+  transform: scaleY(0.55);
+}
+
+.process-timeline-wrapper:has(.step-3.is-revealed) .process-timeline-progress {
+  transform: scaleY(0.82);
+}
+
+.process-timeline-wrapper:has(.step-4.is-revealed) .process-timeline-progress {
+  transform: scaleY(1);
+}
+
+.process-timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
   position: relative;
   z-index: 2;
-  text-align: center;
-  padding: 0 0.5rem;
+}
+
+/* Desktop Zig-Zag Row: 1fr 84px 1fr */
+.process-timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 84px 1fr;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+}
+
+/* Center Node / Circle on the line */
+.process-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 84px;
 }
 
 .step-marker {
@@ -1416,20 +1479,15 @@ ul, ol {
   height: 84px;
   border-radius: 50%;
   background: var(--color-white);
-  border: 3px solid var(--color-primary);
-  margin: 0 auto 1.5rem auto;
+  border: 3px solid rgba(37, 99, 235, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 0 6px var(--color-primary-subtle);
-  transition: all var(--transition-normal);
-}
-
-.process-step:hover .step-marker {
-  transform: scale(1.06);
-  box-shadow: 0 0 0 10px var(--color-primary-soft);
-  background: var(--color-primary-subtle);
+  transition: background var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+  position: relative;
+  z-index: 3;
 }
 
 .step-num {
@@ -1439,25 +1497,102 @@ ul, ol {
   color: var(--color-primary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  transition: color var(--transition-normal);
 }
 
 .step-marker svg {
   width: 26px;
   height: 26px;
   color: var(--color-navy-900);
+  transition: color var(--transition-normal);
+}
+
+/* Step Circle Lights Up: brand blue fill, white icon */
+.process-timeline-item.is-revealed .step-marker {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.22), 0 10px 24px rgba(37, 99, 235, 0.35);
+}
+
+.process-timeline-item.is-revealed .step-marker .step-num {
+  color: #ffffff;
+}
+
+.process-timeline-item.is-revealed .step-marker svg {
+  color: #ffffff;
+}
+
+/* Text Card: white background, 16px radius, soft shadow, padding 24px */
+.process-card {
+  background: var(--color-white);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: var(--radius-card); /* 16px */
+  box-shadow: 0 4px 20px -2px rgba(11, 21, 45, 0.07), 0 2px 6px -1px rgba(11, 21, 45, 0.04);
+  padding: 24px;
+  position: relative;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.step-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .step-title {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--color-navy-900);
-  margin-bottom: 0.65rem;
   font-weight: 800;
+  margin: 0;
 }
 
 .step-desc {
-  font-size: 0.925rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Card Fades In From Its Side */
+.process-timeline-item.step-left .process-card {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.process-timeline-item.step-right .process-card {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+.process-timeline-item.is-revealed .process-card {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hover: Card lifts 4px with a soft blue glow (desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  .process-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 34px -4px rgba(37, 99, 235, 0.2), 0 4px 12px -2px rgba(11, 21, 45, 0.06);
+    border-color: rgba(37, 99, 235, 0.3);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -2255,32 +2390,74 @@ textarea.form-control {
     padding-bottom: 84px;
   }
 
-  /* Process timeline: vertical layout below 768px */
-  .process-timeline {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  /* [REVISION]: Process Timeline Mobile (below 768px):
+     Single column. Line sits on the left edge, 48px circles on the line, cards to the right. No zig-zag. */
+  .process-timeline-wrapper {
+    margin-top: 2rem;
   }
 
-  .process-timeline::before {
-    top: 10%;
-    left: 42px;
-    width: 2px;
-    height: 80%;
+  .process-timeline-line {
+    left: 24px;
+    top: 24px;
+    bottom: 24px;
+    transform: translateX(-50%);
   }
 
-  .process-step {
-    display: flex;
-    text-align: left;
+  .process-timeline-list {
+    gap: 1.75rem;
+  }
+
+  .process-timeline-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1.25rem;
     align-items: flex-start;
-    gap: 1.5rem;
-    padding: 0;
   }
 
+  .process-timeline-item .process-empty {
+    display: none;
+  }
+
+  .process-timeline-item .process-node {
+    grid-column: 1;
+    grid-row: 1;
+    width: 48px;
+    height: 48px;
+  }
+
+  .process-timeline-item .process-card {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 1.25rem;
+  }
+
+  /* Circles 48px, touch-friendly spacing */
   .step-marker {
-    margin: 0;
-    flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: 48px;
+    height: 48px;
+    border-width: 2.5px;
+    box-shadow: 0 0 0 4px var(--color-primary-subtle);
+  }
+
+  .step-marker .step-num {
+    display: none;
+  }
+
+  .step-marker svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Cards on mobile fade in from right */
+  .process-timeline-item.step-left .process-card,
+  .process-timeline-item.step-right .process-card {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  .process-timeline-item.is-revealed .process-card {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   /* Contact grid: single column */
@@ -2457,5 +2634,30 @@ textarea.form-control {
     color: var(--color-navy-900) !important;
     font-weight: 700 !important;
     animation: none !important;
+  }
+
+  /* [REVISION]: Process Timeline reduced motion: show full line and all cards immediately with no animation */
+  .process-timeline-progress {
+    transform: scaleY(1) !important;
+    transition: none !important;
+  }
+
+  .process-timeline-item,
+  .process-timeline-item .process-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .step-marker {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.22) !important;
+    transition: none !important;
+  }
+
+  .step-marker svg,
+  .step-marker .step-num {
+    color: #ffffff !important;
   }
 }

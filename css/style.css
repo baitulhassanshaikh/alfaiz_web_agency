@@ -523,8 +523,13 @@ ul, ol {
 }
 
 /* [REVISION]: Hero Right-Side Looping Decorative Workflow Animation
-   12-second CSS keyframe loop (visual illustration only, non-live)
-   Synced with Consultation, Design, Development, Launch stages
+   12-second CSS keyframe loop displaying four stage scenes:
+   - 0s to 3s: Stage 1 (Consultation: Chat bubbles conversation)
+   - 3s to 6s: Stage 2 (Design: Wireframe shapes and color swatches)
+   - 6s to 9s: Stage 3 (Development: Code editor with typed code lines and blinking cursor)
+   - 9s to 11s: Stage 4 (Launch: Browser window with colorful website and Live badge)
+   - 11s to 12s: Fade out and seamless reset
+   Synced with 4-stage tracker (Consultation, Design, Development, Launch)
    -------------------------------------------------------------------------- */
 .hero-banner-wrapper {
   position: relative;
@@ -553,7 +558,7 @@ ul, ol {
   justify-content: space-between;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(37, 99, 235, 0.12);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .workflow-window-dots {
@@ -598,22 +603,72 @@ ul, ol {
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
-.workflow-messages-list {
+/* 4-Stage Scene Viewport: Fixed height container for smooth transitions */
+.hero-scenes-viewport {
+  position: relative;
+  width: 100%;
+  height: 205px;
+  overflow: hidden;
+}
+
+.scene-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  width: 100%;
-  min-height: 195px;
-  position: relative;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  will-change: opacity, transform;
 }
 
-/* Base Bubble Styles */
+/* Caption pill at bottom of each scene */
+.scene-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  align-self: flex-start;
+  box-shadow: 0 2px 6px rgba(11, 21, 45, 0.04);
+}
+
+.caption-icon {
+  width: 13px;
+  height: 13px;
+  stroke: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 1: CONSULTATION (0s to 3s)
+   -------------------------------------------------------------------------- */
+.scene-consultation {
+  animation: stage1Scene 12s infinite ease-in-out;
+}
+
+.chat-messages-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
 .workflow-bubble {
   padding: 0.55rem 0.85rem;
-  font-size: 0.825rem;
+  font-size: 0.8125rem;
   line-height: 1.42;
   box-shadow: 0 4px 12px rgba(11, 21, 45, 0.05);
   word-break: break-word;
@@ -624,187 +679,774 @@ ul, ol {
   margin: 0;
 }
 
-/* 0s to 3s: Client Bubble (slides in from left, stays until 11s) */
 .client-bubble {
   align-self: flex-start;
-  max-width: 82%;
+  max-width: 84%;
   background: var(--color-white);
   color: var(--color-navy-900);
   border: 1px solid rgba(37, 99, 235, 0.14);
   border-radius: 14px 14px 14px 4px;
-  animation: clientBubble12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
+  animation: stage1ClientBubble 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes clientBubble12s {
+.reply-bubble {
+  align-self: flex-end;
+  max-width: 84%;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: 14px 14px 4px 14px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  animation: stage1ReplyBubble 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stage 1 Keyframe: Consultation Scene Container */
+@keyframes stage1Scene {
+  0% {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  22.5% {
+    opacity: 1;
+    transform: none;
+  }
+  25%, 100% {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+  }
+}
+
+/* Stage 1 Keyframe: Client Bubble Slide from Left */
+@keyframes stage1ClientBubble {
   0% {
     opacity: 0;
-    transform: translateX(-18px);
+    transform: translateX(-20px);
   }
-  4% {
+  4.5%, 22.5% {
     opacity: 1;
     transform: translateX(0);
   }
-  91.67% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  97% {
+  25%, 100% {
     opacity: 0;
-    transform: translateX(-8px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-18px);
+    transform: translateX(-20px);
   }
 }
 
-/* Agency Bubbles: Brand blue, aligned to the right */
-.agency-bubble {
-  align-self: flex-end;
-  max-width: 85%;
+/* Stage 1 Keyframe: Reply Bubble Slide from Right */
+@keyframes stage1ReplyBubble {
+  0%, 6.5% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  11.5%, 22.5% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  25%, 100% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 2: DESIGN (3s to 6s)
+   -------------------------------------------------------------------------- */
+.scene-design {
+  animation: stage2Scene 12s infinite ease-in-out;
+}
+
+.design-canvas {
+  background: #ffffff;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+  box-shadow: 0 4px 14px rgba(11, 21, 45, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.design-swatches {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  animation: stage2Swatches 12s infinite ease-out;
+}
+
+.swatch-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.swatch-pill {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.swatch-soft-blue { background: #60a5fa; }
+.swatch-navy { background: #0b152d; }
+.swatch-cyan { background: #38bdf8; }
+
+.wireframe-art {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.wireframe-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.45rem;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 5px;
+  background: rgba(37, 99, 235, 0.03);
+  animation: stage2WireNav 12s infinite ease-out;
+}
+
+.wire-logo {
+  width: 36px;
+  height: 7px;
   background: var(--color-primary);
-  color: var(--color-white);
-  border-radius: 14px 14px 4px 14px;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  border-radius: 2px;
 }
 
-/* 3s to 6s: Design Bubble (slides from right at 25%) */
-.bubble-design {
-  animation: designBubble12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
+.wire-links {
+  display: flex;
+  gap: 4px;
 }
 
-@keyframes designBubble12s {
+.wire-links span {
+  width: 14px;
+  height: 5px;
+  background: rgba(37, 99, 235, 0.4);
+  border-radius: 2px;
+}
+
+.wireframe-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.35rem;
+  border: 1.5px dashed var(--color-primary);
+  border-radius: 5px;
+  background: rgba(37, 99, 235, 0.02);
+  animation: stage2WireHero 12s infinite ease-out;
+}
+
+.wire-heading {
+  width: 60%;
+  height: 7px;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+.wire-subtext {
+  width: 80%;
+  height: 4px;
+  background: rgba(37, 99, 235, 0.35);
+  border-radius: 2px;
+}
+
+.wire-btn {
+  width: 42px;
+  height: 9px;
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
+.wireframe-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  animation: stage2WireCards 12s infinite ease-out;
+}
+
+.wire-card {
+  border: 1.5px solid var(--color-primary);
+  border-radius: 5px;
+  padding: 0.3rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  background: #ffffff;
+}
+
+.wire-card-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-primary);
+}
+
+.wire-card-line {
+  width: 75%;
+  height: 4px;
+  background: rgba(37, 99, 235, 0.35);
+  border-radius: 2px;
+}
+
+/* Stage 2 Keyframe: Design Scene Container */
+@keyframes stage2Scene {
   0%, 24.9% {
     opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(8px);
+    pointer-events: none;
   }
   25% {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-  29% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+    pointer-events: auto;
   }
-  91.67% {
+  47.5% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
-  97% {
+  50%, 100% {
     opacity: 0;
-    transform: translateX(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(-8px);
+    pointer-events: none;
   }
 }
 
-/* 6s to 9s: Development Bubble (slides from right at 50%) */
-.bubble-dev {
-  animation: devBubble12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
+/* Stage 2 Keyframe: Swatches Fade In */
+@keyframes stage2Swatches {
+  0%, 25.5% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  29%, 47.5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%, 100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 }
 
-@keyframes devBubble12s {
+/* Stage 2 Keyframe: Wireframe Navbar Reveal */
+@keyframes stage2WireNav {
+  0%, 28% {
+    opacity: 0;
+    transform: scaleX(0.85);
+  }
+  32%, 47.5% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Stage 2 Keyframe: Wireframe Hero Block Reveal */
+@keyframes stage2WireHero {
+  0%, 32% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  36%, 47.5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Stage 2 Keyframe: Wireframe Service Cards Reveal */
+@keyframes stage2WireCards {
+  0%, 36.5% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  41%, 47.5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 3: DEVELOPMENT (6s to 9s)
+   -------------------------------------------------------------------------- */
+.scene-development {
+  animation: stage3Scene 12s infinite ease-in-out;
+}
+
+.code-editor-panel {
+  background: #0b152d;
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  box-shadow: 0 8px 24px rgba(11, 21, 45, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editor-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.editor-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.editor-file {
+  font-family: monospace;
+  font-size: 0.68rem;
+  color: #94a3b8;
+}
+
+.editor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: clamp(0.7rem, 2.3vw, 0.78rem);
+  line-height: 1.45;
+}
+
+.code-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.line-num {
+  color: #475569;
+  width: 12px;
+  flex-shrink: 0;
+  user-select: none;
+  font-size: 0.68rem;
+}
+
+.code-text {
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.code-line-1 {
+  animation: stage3CodeLine1 12s infinite ease-out;
+}
+
+.code-line-2 {
+  animation: stage3CodeLine2 12s infinite ease-out;
+}
+
+.code-line-3 {
+  animation: stage3CodeLine3 12s infinite ease-out;
+}
+
+.code-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  background: #38bdf8;
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: stage3CursorBlink 0.8s infinite;
+}
+
+/* Stage 3 Keyframe: Development Scene Container */
+@keyframes stage3Scene {
   0%, 49.9% {
     opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(8px);
+    pointer-events: none;
   }
   50% {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-  54% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+    pointer-events: auto;
   }
-  91.67% {
+  72.5% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
-  97% {
+  75%, 100% {
     opacity: 0;
-    transform: translateX(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(-8px);
+    pointer-events: none;
   }
 }
 
-/* 9s to 11s: Launch Bubble (slides from right at 75%) */
-.bubble-launch {
-  animation: launchBubble12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
+/* Stage 3 Keyframe: Code Line 1 Typing Reveal */
+@keyframes stage3CodeLine1 {
+  0%, 51% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  54.5%, 72.5% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  75%, 100% {
+    opacity: 0;
+  }
 }
 
-@keyframes launchBubble12s {
+/* Stage 3 Keyframe: Code Line 2 Typing Reveal */
+@keyframes stage3CodeLine2 {
+  0%, 57% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  60.5%, 72.5% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  75%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Stage 3 Keyframe: Code Line 3 Typing Reveal */
+@keyframes stage3CodeLine3 {
+  0%, 63% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  66.5%, 72.5% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  75%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Stage 3 Keyframe: Blinking Cursor */
+@keyframes stage3CursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 4: LAUNCH (9s to 11s)
+   -------------------------------------------------------------------------- */
+.scene-launch {
+  animation: stage4Scene 12s infinite ease-in-out;
+}
+
+.browser-window {
+  background: #ffffff;
+  border: 1.5px solid rgba(37, 99, 235, 0.2);
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.12), 0 2px 8px rgba(11, 21, 45, 0.05);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.browser-chrome {
+  background: #f8fafc;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.12);
+  padding: 0.35rem 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.browser-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.browser-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.browser-address-bar {
+  flex: 1;
+  max-width: 160px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 0.12rem 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.browser-lock-icon {
+  width: 10px;
+  height: 10px;
+  stroke: #94a3b8;
+  flex-shrink: 0;
+}
+
+.browser-url {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.browser-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+  animation: stage4LiveBadge 12s infinite ease-out;
+}
+
+.live-check-icon {
+  width: 11px;
+  height: 11px;
+  stroke: #059669;
+}
+
+.browser-viewport {
+  padding: 0.45rem 0.55rem;
+  background: #f8fbff;
+}
+
+.launch-site-preview {
+  animation: stage4SiteSlide 12s infinite ease-out;
+}
+
+.launch-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.22rem 0.45rem;
+  background: var(--color-primary);
+  border-radius: 4px;
+  margin-bottom: 0.3rem;
+}
+
+.launch-logo {
+  width: 30px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 2px;
+}
+
+.launch-links {
+  display: flex;
+  gap: 4px;
+}
+
+.launch-links span {
+  width: 12px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+}
+
+.launch-hero {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 4px;
+  padding: 0.4rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid #bfdbfe;
+}
+
+.launch-heading {
+  width: 55%;
+  height: 6px;
+  background: var(--color-navy-900);
+  border-radius: 2px;
+}
+
+.launch-subtext {
+  width: 75%;
+  height: 4px;
+  background: #64748b;
+  border-radius: 2px;
+}
+
+.launch-btn {
+  width: 38px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
+.launch-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3rem;
+}
+
+.launch-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 2.5px solid var(--color-primary);
+  border-radius: 4px;
+  padding: 0.25rem 0.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.launch-card-bar {
+  width: 60%;
+  height: 4px;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+.launch-card-text {
+  width: 75%;
+  height: 3px;
+  background: #cbd5e1;
+  border-radius: 1.5px;
+}
+
+/* Stage 4 Keyframe: Launch Scene Container */
+@keyframes stage4Scene {
   0%, 74.9% {
     opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(8px);
+    pointer-events: none;
   }
   75% {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-  79% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+    pointer-events: auto;
   }
   91.67% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
-  97% {
+  97%, 100% {
     opacity: 0;
-    transform: translateX(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(18px);
+    transform: translateY(-8px);
+    pointer-events: none;
   }
 }
 
-/* Stage Tracker (synced with the 12s loop) */
+/* Stage 4 Keyframe: Live Badge Pop */
+@keyframes stage4LiveBadge {
+  0%, 78% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  82%, 91.67% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  97%, 100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* Stage 4 Keyframe: Website Slide In & Color Fill */
+@keyframes stage4SiteSlide {
+  0%, 74.9% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  78%, 91.67% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  97%, 100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   STAGE TRACKER: Synced 12-second 4-stage progression
+   0s - 3s: Consultation (Dot 1)
+   3s - 6s: Design (Dots 1 & 2)
+   6s - 9s: Development (Dots 1, 2, & 3)
+   9s - 11s: Launch (All 4 Dots)
+   11s - 12s: Fade out and reset
+   -------------------------------------------------------------------------- */
 .workflow-tracker-wrap {
-  margin-top: auto;
-  padding-top: 0.85rem;
-  border-top: 1px dashed rgba(37, 99, 235, 0.16);
   position: relative;
-  animation: trackerFade12s 12s infinite ease-in-out;
-  will-change: opacity;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(37, 99, 235, 0.12);
+  animation: trackerFade12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Keyframe: Stage Tracker Overall Fade */
 @keyframes trackerFade12s {
   0%, 91.67% {
     opacity: 1;
   }
   97%, 100% {
-    opacity: 0.15;
+    opacity: 0.2;
   }
 }
 
 .workflow-tracker-line {
   position: absolute;
-  top: calc(0.85rem + 12px);
-  left: 10%;
-  width: 80%;
+  top: 18px;
+  left: 20px;
+  right: 20px;
   height: 2px;
-  background-color: rgba(37, 99, 235, 0.15);
+  background: rgba(37, 99, 235, 0.15);
   z-index: 1;
 }
 
 .workflow-tracker-progress {
   height: 100%;
   width: 100%;
-  background-color: var(--color-primary);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
   transform-origin: left center;
   transform: scaleX(0);
-  animation: trackerProgress12s 12s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation: trackerProgress12s 12s infinite cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
+/* Keyframe: Progress Line Filling Between Stages */
 @keyframes trackerProgress12s {
   0%, 24.9% {
     transform: scaleX(0);
@@ -826,9 +1468,9 @@ ul, ol {
 .workflow-stages {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.25rem;
   position: relative;
   z-index: 2;
+  gap: 0.25rem;
 }
 
 .workflow-stage-item {
@@ -836,64 +1478,59 @@ ul, ol {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 0.28rem;
 }
 
 .stage-dot {
-  position: relative;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background-color: var(--color-white);
-  border: 2px solid #cbd5e1;
+  background: var(--color-white);
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.35rem;
-  overflow: hidden;
-  box-sizing: border-box;
+  transition: all var(--transition-fast);
 }
 
 .stage-dot-fill {
   position: absolute;
-  inset: -1px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   opacity: 0;
   will-change: opacity;
 }
 
 .stage-dot svg {
+  width: 11px;
+  height: 11px;
+  color: var(--color-white);
   position: relative;
   z-index: 2;
-  width: 12px;
-  height: 12px;
-  stroke: var(--color-white);
   opacity: 0;
   transform: scale(0.5);
-  will-change: transform, opacity;
+  will-change: opacity, transform;
 }
 
 .stage-label {
   font-family: var(--font-heading);
-  font-size: clamp(0.6rem, 2vw, 0.72rem);
-  font-weight: 500;
+  font-size: clamp(0.58rem, 1.8vw, 0.7rem);
   color: var(--color-text-muted);
-  line-height: 1.15;
-  opacity: 0.7;
-  will-change: opacity;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
-/* Stage 1: Consultation (Active 0s to 11s) */
-.stage-1 .stage-dot-fill {
-  animation: stageDotFill1 12s infinite;
-}
-.stage-1 .stage-dot svg {
-  animation: stageDotCheck1 12s infinite;
-}
-.stage-1 .stage-label {
-  animation: stageText1 12s infinite;
-}
+/* Stage 1 Tracker: Active from 0s */
+.stage-1 .stage-dot-fill { animation: stageDotFill1 12s infinite; }
+.stage-1 .stage-dot svg { animation: stageDotCheck1 12s infinite; }
+.stage-1 .stage-label { animation: stageText1 12s infinite; }
 
+/* Stage 1 Tracker Keyframes */
 @keyframes stageDotFill1 {
   0%, 91.67% {
     opacity: 1;
@@ -927,17 +1564,12 @@ ul, ol {
   }
 }
 
-/* Stage 2: Design (Active 3s to 11s, 25% to 91.67%) */
-.stage-2 .stage-dot-fill {
-  animation: stageDotFill2 12s infinite;
-}
-.stage-2 .stage-dot svg {
-  animation: stageDotCheck2 12s infinite;
-}
-.stage-2 .stage-label {
-  animation: stageText2 12s infinite;
-}
+/* Stage 2 Tracker: Active from 3s (25%) */
+.stage-2 .stage-dot-fill { animation: stageDotFill2 12s infinite; }
+.stage-2 .stage-dot svg { animation: stageDotCheck2 12s infinite; }
+.stage-2 .stage-label { animation: stageText2 12s infinite; }
 
+/* Stage 2 Tracker Keyframes */
 @keyframes stageDotFill2 {
   0%, 24.9% {
     opacity: 0;
@@ -983,17 +1615,12 @@ ul, ol {
   }
 }
 
-/* Stage 3: Development (Active 6s to 11s, 50% to 91.67%) */
-.stage-3 .stage-dot-fill {
-  animation: stageDotFill3 12s infinite;
-}
-.stage-3 .stage-dot svg {
-  animation: stageDotCheck3 12s infinite;
-}
-.stage-3 .stage-label {
-  animation: stageText3 12s infinite;
-}
+/* Stage 3 Tracker: Active from 6s (50%) */
+.stage-3 .stage-dot-fill { animation: stageDotFill3 12s infinite; }
+.stage-3 .stage-dot svg { animation: stageDotCheck3 12s infinite; }
+.stage-3 .stage-label { animation: stageText3 12s infinite; }
 
+/* Stage 3 Tracker Keyframes */
 @keyframes stageDotFill3 {
   0%, 49.9% {
     opacity: 0;
@@ -1039,17 +1666,12 @@ ul, ol {
   }
 }
 
-/* Stage 4: Launch (Active 9s to 11s, 75% to 91.67%) */
-.stage-4 .stage-dot-fill {
-  animation: stageDotFill4 12s infinite;
-}
-.stage-4 .stage-dot svg {
-  animation: stageDotCheck4 12s infinite;
-}
-.stage-4 .stage-label {
-  animation: stageText4 12s infinite;
-}
+/* Stage 4 Tracker: Active from 9s (75%) */
+.stage-4 .stage-dot-fill { animation: stageDotFill4 12s infinite; }
+.stage-4 .stage-dot svg { animation: stageDotCheck4 12s infinite; }
+.stage-4 .stage-label { animation: stageText4 12s infinite; }
 
+/* Stage 4 Tracker Keyframes */
 @keyframes stageDotFill4 {
   0%, 74.9% {
     opacity: 0;
@@ -1100,7 +1722,7 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 0.85rem;
+  padding-top: 0.75rem;
   border-top: 1px solid rgba(37, 99, 235, 0.12);
 }
 
@@ -1125,6 +1747,7 @@ ul, ol {
   color: var(--color-navy-900);
   line-height: 1.15;
 }
+
 /* --------------------------------------------------------------------------
    6. Stats Bar
    [REVISION]: Kept only "100% Responsive" and "Global Clients". Clean 2-column.
@@ -2601,8 +3224,27 @@ textarea.form-control {
     animation: none !important;
   }
 
-  /* Decorative workflow: show final state (all messages visible, all four stages checked) */
-  .workflow-bubble {
+  /* Decorative workflow 4-stage hero: show final launch scene with all 4 dots active */
+  .hero-scenes-viewport {
+    height: auto !important;
+  }
+
+  .scene-stage {
+    position: relative !important;
+    opacity: 0 !important;
+    display: none !important;
+    animation: none !important;
+  }
+
+  .scene-stage.scene-launch {
+    opacity: 1 !important;
+    display: flex !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .launch-site-preview,
+  .browser-live-badge {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;

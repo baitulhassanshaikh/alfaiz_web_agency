@@ -3096,9 +3096,14 @@ textarea.form-control {
     --header-height-compact: 62px;
   }
 
-  /* Safety bottom padding so fixed email button never obstructs forms or footer */
+  /* Ensure body has no bottom padding so the dark footer extends seamlessly to the bottom */
   body {
-    padding-bottom: 80px;
+    padding-bottom: 0 !important;
+  }
+
+  /* Extra padding inside dark navy footer so floating button never obstructs text */
+  .footer {
+    padding-bottom: 5.5rem;
   }
 
   .container {

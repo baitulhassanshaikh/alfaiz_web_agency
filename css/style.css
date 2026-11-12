@@ -457,8 +457,8 @@ ul, ol {
    (Buttons "View Packages" and "Email Us" fully visible without scrolling)
    -------------------------------------------------------------------------- */
 .hero {
-  padding-top: calc(var(--header-height) + 1.25rem);
-  padding-bottom: clamp(2.5rem, 4.5vh, 4rem);
+  padding-top: calc(var(--header-height) + clamp(0.5rem, 1.4vh, 1.15rem));
+  padding-bottom: clamp(1.5rem, 3vh, 2.75rem);
   background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 50%, #eff6ff 100%);
   position: relative;
   overflow: hidden;
@@ -469,27 +469,27 @@ ul, ol {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   align-items: center;
-  gap: clamp(1.75rem, 3.5vw, 3rem);
+  gap: clamp(1.5rem, 3vw, 2.75rem);
   position: relative;
   z-index: 2;
 }
 
 .hero-content {
-  max-width: 580px;
+  max-width: 560px;
 }
 
 .hero-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.32rem 0.85rem;
+  padding: 0.28rem 0.8rem;
   background: var(--color-white);
   border: 1px solid rgba(37, 99, 235, 0.2);
   border-radius: var(--radius-full);
   font-size: 0.8125rem;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   box-shadow: var(--shadow-xs);
 }
 
@@ -501,10 +501,10 @@ ul, ol {
 }
 
 .hero-title {
-  font-size: clamp(2.1rem, 3.8vw, 3.25rem);
+  font-size: clamp(1.95rem, 3.2vw, 2.85rem);
   color: var(--color-navy-900);
-  line-height: 1.14;
-  margin-bottom: 0.65rem;
+  line-height: 1.12;
+  margin-bottom: 0.5rem;
   font-weight: 800;
   letter-spacing: -0.025em;
 }
@@ -515,19 +515,19 @@ ul, ol {
 
 .hero-tagline {
   font-family: var(--font-heading);
-  font-size: clamp(1.05rem, 1.5vw, 1.15rem);
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
   font-weight: 700;
   color: var(--color-navy-800);
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.45rem;
   line-height: 1.35;
 }
 
 .hero-subtext {
-  font-size: clamp(0.925rem, 1.3vw, 1rem);
+  font-size: clamp(0.88rem, 1.1vw, 0.96rem);
   color: var(--color-text-main);
-  line-height: 1.58;
-  margin-bottom: 1.25rem;
-  max-width: 540px;
+  line-height: 1.54;
+  margin-bottom: 1.1rem;
+  max-width: 530px;
 }
 
 .hero-cta-group {
@@ -538,8 +538,8 @@ ul, ol {
 }
 
 .hero-cta-group .btn {
-  padding: 0.75rem 1.6rem;
-  font-size: 0.95rem;
+  padding: 0.68rem 1.5rem;
+  font-size: 0.925rem;
 }
 
 /* [REVISION]: Hero Right-Side Looping Decorative Workflow Animation
@@ -1769,37 +1769,106 @@ ul, ol {
 }
 
 /* Laptop / Short Viewport Heights Optimization: Ensure CTAs are fully above the fold */
-@media (max-height: 820px) and (min-width: 992px) {
+@media (max-height: 850px) and (min-width: 992px) {
   .hero {
-    padding-top: calc(var(--header-height) + 0.65rem);
-    padding-bottom: 2rem;
+    padding-top: calc(var(--header-height) + 0.35rem);
+    padding-bottom: 1.25rem;
   }
   .hero-pill {
-    margin-bottom: 0.65rem;
-    padding: 0.28rem 0.75rem;
+    margin-bottom: 0.45rem;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.78rem;
   }
   .hero-title {
-    font-size: clamp(2rem, 3.4vw, 2.85rem);
-    margin-bottom: 0.5rem;
-    line-height: 1.12;
+    font-size: clamp(1.8rem, 2.8vw, 2.35rem);
+    margin-bottom: 0.35rem;
+    line-height: 1.1;
   }
   .hero-tagline {
-    font-size: 1.05rem;
-    margin-bottom: 0.45rem;
+    font-size: 0.96rem;
+    margin-bottom: 0.35rem;
   }
   .hero-subtext {
-    font-size: 0.925rem;
-    line-height: 1.5;
-    margin-bottom: 1.05rem;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    margin-bottom: 0.85rem;
+    max-width: 500px;
+  }
+  .hero-cta-group {
+    gap: 0.75rem;
   }
   .hero-cta-group .btn {
-    padding: 0.65rem 1.45rem;
+    padding: 0.58rem 1.35rem;
+    font-size: 0.88rem;
+  }
+  .hero-banner-wrapper {
+    max-width: 410px;
   }
   .hero-scenes-viewport {
-    height: 180px;
+    height: 165px;
   }
   .workflow-card {
-    padding: 0.95rem 1rem 0.85rem 1rem;
+    padding: 0.85rem 0.95rem 0.75rem 0.95rem;
+  }
+  .workflow-card-header {
+    padding-bottom: 0.55rem;
+    margin-bottom: 0.65rem;
+  }
+  .workflow-stage-tracker {
+    margin-top: 0.45rem;
+    padding-top: 0.45rem;
+  }
+  .workflow-card-footer {
+    margin-top: 0.45rem;
+    padding-top: 0.4rem;
+  }
+}
+
+/* Very Short Viewport Heights (e.g. 600px - 700px on 1366x768 screens with taskbar and tabs) */
+@media (max-height: 700px) and (min-width: 992px) {
+  .hero {
+    padding-top: calc(var(--header-height) + 0.15rem);
+    padding-bottom: 0.75rem;
+  }
+  .hero-pill {
+    margin-bottom: 0.25rem;
+    padding: 0.18rem 0.6rem;
+    font-size: 0.72rem;
+  }
+  .hero-title {
+    font-size: clamp(1.6rem, 2.4vw, 2.05rem);
+    margin-bottom: 0.25rem;
+    line-height: 1.08;
+  }
+  .hero-tagline {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+  .hero-subtext {
+    font-size: 0.82rem;
+    line-height: 1.38;
+    margin-bottom: 0.65rem;
+  }
+  .hero-cta-group .btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.825rem;
+  }
+  .hero-banner-wrapper {
+    max-width: 380px;
+  }
+  .hero-scenes-viewport {
+    height: 148px;
+  }
+  .workflow-card {
+    padding: 0.65rem 0.8rem 0.55rem 0.8rem;
+  }
+  .workflow-stage-tracker {
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
+  }
+  .workflow-card-footer {
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
   }
 }
 

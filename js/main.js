@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger && navMenu) {
     hamburger.addEventListener('click', toggleMobileMenu);
 
-    navLinks.forEach(link => {
+    const allNavLinks = navMenu.querySelectorAll('a');
+    allNavLinks.forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth < 992) {
           closeMobileMenu();

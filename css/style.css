@@ -90,6 +90,9 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -98,6 +101,9 @@ body {
   background-color: var(--color-bg-body);
   line-height: 1.68;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -161,8 +167,9 @@ ul, ol {
   max-width: var(--container-max);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: clamp(1rem, 3.5vw, 1.5rem);
+  padding-right: clamp(1rem, 3.5vw, 1.5rem);
+  box-sizing: border-box;
 }
 
 .section {
@@ -362,6 +369,10 @@ ul, ol {
   display: flex;
   align-items: center;
   gap: 1.85rem;
+}
+
+.nav-menu .mobile-nav-cta {
+  display: none;
 }
 
 .nav-link {
@@ -2161,6 +2172,7 @@ ul, ol {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
   margin-bottom: 0.75rem;
 }
 
@@ -2445,9 +2457,11 @@ ul, ol {
 
 .channel-link {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: clamp(0.85rem, 3.5vw, 1.05rem);
   font-weight: 700;
   color: var(--color-navy-900);
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .channel-link:hover {
@@ -2613,6 +2627,8 @@ textarea.form-control {
   font-size: 0.875rem;
   color: #cbd5e1;
   transition: color var(--transition-fast);
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .footer-contact-link:hover {
@@ -2871,35 +2887,42 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
-   17. Responsive Media Queries (Tested rigorously: 375px, 414px, 768px, 1280px)
+   17. Responsive Media Queries (Rigorous multi-device responsive system:
+       - 1024px+: Desktop / High-res monitors
+       - 768px - 1023px: Tablets & iPad portrait/landscape
+       - 480px - 767px: Phablets & standard smartphones (landscape/portrait)
+       - 360px - 479px: Compact mobile (iPhone 12/13/14/15, Galaxy S series)
+       - 320px - 359px: Ultra-compact mobile (iPhone SE, Galaxy Fold outer screen)
    -------------------------------------------------------------------------- */
 
-/* Breakpoint: Below 1024px (Tablet Landscape & Medium Screens) */
+/* Breakpoint: Below 1024px (Tablets & Medium Screens) */
 @media (max-width: 1023px) {
   :root {
-    --section-padding: 5.5rem 1.25rem;
+    --section-padding: 5rem 1.25rem;
   }
 
-  /* Services & Packages: 2 columns at 768px / tablet */
+  /* Services Grid: 2 balanced columns */
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
+  /* Packages Grid: 2 columns with 3rd package centered below */
   .packages-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
-  .package-card.popular {
+  .package-card:nth-child(3) {
     grid-column: span 2;
-    max-width: 580px;
+    max-width: 540px;
     margin: 0 auto;
     width: 100%;
   }
 
   .why-us-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .footer-top {
@@ -2910,11 +2933,16 @@ textarea.form-control {
 
 /* Breakpoint: Below 992px (Mobile / Tablet Portrait) */
 @media (max-width: 991px) {
+  :root {
+    --header-height: 72px;
+    --header-height-compact: 66px;
+  }
+
   .hamburger {
     display: flex;
   }
 
-  /* Full-width dropdown menu below header */
+  /* Full-width mobile dropdown menu */
   .nav-menu {
     position: fixed;
     top: var(--header-height);
@@ -2927,7 +2955,7 @@ textarea.form-control {
     flex-direction: column;
     align-items: stretch;
     padding: 1.25rem 1.5rem 1.75rem 1.5rem;
-    box-shadow: 0 16px 30px rgba(11, 21, 45, 0.12);
+    box-shadow: 0 16px 32px rgba(11, 21, 45, 0.12);
     border-bottom: 1px solid var(--color-border);
     transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
     z-index: 1050;
@@ -2956,22 +2984,32 @@ textarea.form-control {
     align-items: center;
   }
 
-  /* Get Started button stays visible and compact in header */
   .nav-actions .btn {
     display: inline-flex;
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 0.95rem;
     font-size: 0.85rem;
-    min-height: 44px;
+    min-height: 42px;
   }
 
   .nav-menu .mobile-nav-cta {
-    display: none !important;
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    font-size: 0.95rem;
   }
 
-  /* Hero: 1-column layout below 992px */
+  /* Hero: Stack to 1 column */
+  .hero {
+    padding-top: calc(var(--header-height) + 2.5rem);
+    padding-bottom: 4.5rem;
+  }
+
   .hero .container {
     grid-template-columns: 1fr;
-    gap: 2.75rem;
+    gap: 2.5rem;
     text-align: center;
   }
 
@@ -2986,11 +3024,6 @@ textarea.form-control {
 
   .hero-banner-wrapper {
     width: 100%;
-    max-width: 100%;
-  }
-
-  .hero-banner-wrapper {
-    width: 100%;
     max-width: 480px;
     margin: 0 auto;
   }
@@ -2999,24 +3032,60 @@ textarea.form-control {
     max-width: 480px;
     margin: 0 auto;
   }
+
+  /* Contact section: Stack to 1 column on tablets */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .contact-info-col h3 {
+    font-size: 1.75rem;
+  }
 }
 
-/* Breakpoint: Below 768px (Mobile Devices) */
+/* Breakpoint: Below 768px (Standard Smartphone Viewports) */
 @media (max-width: 767px) {
   :root {
-    --section-padding: 4.5rem 1rem;
-    --header-height: 72px;
+    --section-padding: 4rem 1rem;
+    --header-height: 68px;
+    --header-height-compact: 62px;
   }
 
-  /* Extra bottom padding to body on mobile so floating email never covers footer/submit button */
+  /* Safety bottom padding so fixed email button never obstructs forms or footer */
   body {
-    padding-bottom: 84px;
+    padding-bottom: 80px;
   }
 
-  /* [REVISION]: Process Timeline Mobile (below 768px):
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Stats Bar: compact spacing and single column */
+  .stats-bar-wrapper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .stats-card {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .stat-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .stat-number {
+    font-size: 2.25rem;
+  }
+
+  /* Process Timeline Mobile (below 768px):
      Single column. Line sits on the left edge, 48px circles on the line, cards to the right. No zig-zag. */
   .process-timeline-wrapper {
-    margin-top: 2rem;
+    margin-top: 1.75rem;
   }
 
   .process-timeline-line {
@@ -3027,13 +3096,13 @@ textarea.form-control {
   }
 
   .process-timeline-list {
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
 
   .process-timeline-item {
     display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 1.25rem;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 1.15rem;
     align-items: flex-start;
   }
 
@@ -3051,7 +3120,8 @@ textarea.form-control {
   .process-timeline-item .process-card {
     grid-column: 2;
     grid-row: 1;
-    padding: 1.25rem;
+    padding: 1.15rem 1rem;
+    min-width: 0;
   }
 
   /* Circles 48px, touch-friendly spacing */
@@ -3067,15 +3137,15 @@ textarea.form-control {
   }
 
   .step-marker svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   /* Cards on mobile fade in from right */
   .process-timeline-item.step-left .process-card,
   .process-timeline-item.step-right .process-card {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translateX(20px);
   }
 
   .process-timeline-item.is-revealed .process-card {
@@ -3083,13 +3153,7 @@ textarea.form-control {
     transform: translateX(0);
   }
 
-  /* Contact grid: single column */
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
-  }
-
-  /* FAQ: single column */
+  /* FAQ: single column & full width */
   .faq-container {
     width: 100%;
   }
@@ -3097,13 +3161,14 @@ textarea.form-control {
   /* Footer: single column */
   .footer-top {
     grid-template-columns: 1fr;
-    gap: 2.25rem;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .footer-links-group {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
   }
 
   .footer-link {
@@ -3114,21 +3179,21 @@ textarea.form-control {
 
   .footer-bottom {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
     text-align: center;
   }
 
-  /* Floating email button: 52px on mobile, placed 16px from edges */
+  /* Floating email button: compact on mobile */
   .floating-email-wrapper {
     bottom: 16px;
     right: 16px;
   }
 
   .floating-email-btn {
-    width: 52px;
-    height: 52px;
-    min-width: 52px;
-    min-height: 52px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
   }
 
   .floating-email-btn svg {
@@ -3142,7 +3207,11 @@ textarea.form-control {
   /* Services & Packages: 1 column below 640px */
   .services-grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.15rem;
+  }
+
+  .service-card {
+    padding: 1.65rem 1.25rem;
   }
 
   .packages-grid {
@@ -3150,55 +3219,325 @@ textarea.form-control {
     gap: 1.5rem;
   }
 
-  .package-card.popular {
+  .package-card {
+    padding: 1.85rem 1.25rem;
+  }
+
+  .package-card:nth-child(3) {
     grid-column: span 1;
     max-width: 100%;
   }
 
-  .stats-card {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 1.75rem 1.25rem;
-  }
-
-  .stat-item:not(:last-child)::after {
-    display: none;
-  }
-
   .why-us-grid {
     grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .why-card {
+    padding: 1.65rem 1.25rem;
   }
 
   .contact-form-card {
-    padding: 1.75rem 1.25rem;
+    padding: 1.65rem 1.15rem;
   }
 
   .workflow-card {
-    padding: 1.25rem 1rem 1rem 1rem;
+    padding: 1.15rem 0.95rem 0.95rem 0.95rem;
   }
 }
 
-/* Breakpoint: Below 480px (Extra Small Phones e.g. 375px, 414px) */
+/* Breakpoint: Below 480px (Extra Small Phones e.g. 375px, 390px, 414px) */
 @media (max-width: 479px) {
-  /* Headline uses clamp() to scale cleanly */
-  .hero-title {
-    font-size: clamp(1.85rem, 8vw, 2.35rem);
+  :root {
+    --header-height: 64px;
+    --header-height-compact: 58px;
+    --section-padding: 3.5rem 0.85rem;
   }
 
-  .hero-tagline {
+  .container {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  /* Header adjustments for 375px / 390px / 414px */
+  .navbar .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .brand-logo {
+    gap: 0.5rem;
+  }
+
+  .brand-logo img {
+    height: 36px;
+    width: auto;
+  }
+
+  .brand-name {
     font-size: 1.05rem;
   }
 
-  /* Buttons go full width below 480px with >= 12px touch spacing */
+  .brand-tag {
+    font-size: 0.6rem;
+  }
+
+  .nav-actions {
+    gap: 0.45rem;
+  }
+
+  .nav-actions .btn {
+    padding: 0.38rem 0.65rem;
+    font-size: 0.78rem;
+    min-height: 38px;
+    white-space: nowrap;
+  }
+
+  .hamburger {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  /* Hero Section Typography & CTA Stacking */
+  .hero {
+    padding-top: calc(var(--header-height) + 1.25rem);
+    padding-bottom: 3.25rem;
+  }
+
+  .hero-pill {
+    font-size: 0.78rem;
+    padding: 0.32rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 7.8vw, 2.2rem);
+    line-height: 1.18;
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .hero-subtext {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
   .hero-cta-group {
     flex-direction: column;
     width: 100%;
-    gap: 12px;
+    gap: 10px;
   }
 
   .hero-cta-group .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Hero 4-Stage Card on Small Screens */
+  .workflow-card {
+    padding: 1rem 0.75rem 0.85rem 0.75rem;
+    border-radius: 12px;
+  }
+
+  .hero-scenes-viewport {
+    height: 195px;
+  }
+
+  .workflow-bubble {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    line-height: 1.38;
+  }
+
+  .client-bubble,
+  .reply-bubble {
+    max-width: 90%;
+  }
+
+  .scene-caption {
+    font-size: 0.7rem;
+    padding: 0.18rem 0.5rem;
+    max-width: 100%;
+  }
+
+  .scene-caption span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .browser-chrome {
+    padding: 0.28rem 0.45rem;
+  }
+
+  .browser-address-bar {
+    max-width: 130px;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .browser-url {
+    font-size: 0.62rem;
+  }
+
+  .browser-live-badge {
+    font-size: 0.62rem;
+    padding: 0.08rem 0.35rem;
+  }
+
+  .stage-label {
+    font-size: 0.56rem;
+    word-break: break-word;
+  }
+
+  /* Process Timeline below 480px */
+  .process-timeline-line {
+    left: 20px;
+  }
+
+  .process-timeline-item {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 0.85rem;
+  }
+
+  .process-timeline-item .process-node {
+    width: 40px;
+    height: 40px;
+  }
+
+  .step-marker {
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
+    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+  }
+
+  .step-marker svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .process-timeline-item .process-card {
+    padding: 0.95rem 0.85rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Contact Cards below 480px */
+  .contact-channel-card {
+    padding: 0.95rem 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .channel-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .channel-details h4 {
+    font-size: 0.72rem;
+  }
+
+  .contact-trust-note {
+    padding: 1rem 0.85rem;
+    font-size: 0.825rem;
+  }
+
+  .contact-form-card {
+    padding: 1.35rem 0.95rem;
+  }
+
+  .form-control {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+}
+
+/* Breakpoint: Below 360px (Ultra Compact Phones e.g. 320px iPhone SE 1st gen) */
+@media (max-width: 359px) {
+  :root {
+    --header-height: 60px;
+    --header-height-compact: 56px;
+    --section-padding: 3rem 0.65rem;
+  }
+
+  .container {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .nav-actions .btn {
+    display: none;
+  }
+
+  .nav-menu .mobile-nav-cta {
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.65rem;
+  }
+
+  .workflow-card {
+    padding: 0.85rem 0.65rem;
+  }
+
+  .browser-address-bar {
+    max-width: 105px;
+  }
+
+  .process-timeline-item {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+
+  .process-timeline-line {
+    left: 18px;
+  }
+
+  .process-timeline-item .process-node {
+    width: 36px;
+    height: 36px;
+  }
+
+  .step-marker {
+    width: 36px;
+    height: 36px;
+  }
+
+  .step-marker svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .process-timeline-item .process-card {
+    padding: 0.85rem 0.65rem;
+  }
+
+  .step-title {
+    font-size: 1rem;
   }
 }
 

@@ -458,7 +458,7 @@ ul, ol {
    -------------------------------------------------------------------------- */
 .hero {
   padding-top: calc(var(--header-height) + 2rem);
-  padding-bottom: clamp(48px, 6vh, 64px); /* [REVISION]: padding-bottom at least 48px */
+  padding-bottom: clamp(64px, 8vh, 88px); /* [REVISION]: padding-bottom at least 64px */
   background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 50%, #eff6ff 100%);
   position: relative;
   overflow: hidden;
@@ -1779,22 +1779,24 @@ ul, ol {
 }
 
 /* --------------------------------------------------------------------------
-   6. Stats Bar
-   [REVISION]: Placed as a separate section below hero (margin-top: 0, position: relative,
-   no negative margin or overlap, max-width 900px, 24px padding, soft shadow)
+   6. Stats Bar (Separate full-width section directly below hero)
+   [REVISION]: Position static, margin-top: 0, no negative margin or overlap,
+   max-width 900px, 24px padding, rounded 16px, soft shadow.
    -------------------------------------------------------------------------- */
 .stats-section,
 .stats-bar-wrapper {
-  position: relative;
+  position: static; /* [REVISION]: position: static */
   margin-top: 0;
-  padding: 32px 0 48px 0;
+  margin-bottom: 0;
+  padding: 36px 0 48px 0;
   z-index: 5;
   background: transparent;
+  transform: none;
 }
 
 .stats-card {
   background: var(--color-white);
-  border-radius: var(--radius-card); /* 16px */
+  border-radius: 16px; /* [REVISION]: rounded 16px */
   padding: 24px; /* [REVISION]: 24px padding */
   box-shadow: 0 10px 30px -4px rgba(11, 21, 45, 0.08), 0 4px 12px -2px rgba(11, 21, 45, 0.04); /* soft shadow */
   border: 1px solid var(--color-border-light);
@@ -1805,6 +1807,7 @@ ul, ol {
   margin: 0 auto; /* centered */
   box-sizing: border-box;
   width: 100%;
+  transform: none;
 }
 
 .stat-item {
@@ -3029,7 +3032,7 @@ textarea.form-control {
   /* Hero: Stack to 1 column */
   .hero {
     padding-top: calc(var(--header-height) + 2rem);
-    padding-bottom: 48px; /* [REVISION]: padding-bottom at least 48px */
+    padding-bottom: 64px; /* [REVISION]: padding-bottom at least 64px */
   }
 
   .hero .container {
@@ -3103,13 +3106,14 @@ textarea.form-control {
     padding-right: 1rem;
   }
 
-  /* [REVISION]: Stats Bar: separate section below hero, stack vertically with 16px gap */
+  /* [REVISION]: Stats Bar: separate section below hero, position: static, stack vertically with 16px gap */
   .stats-section,
   .stats-bar-wrapper {
+    position: static; /* [REVISION]: position: static */
     margin-top: 0;
     margin-bottom: 0;
-    padding: 16px 0 36px 0;
-    position: relative;
+    padding: 24px 0 36px 0;
+    transform: none;
   }
 
   .stats-card {
@@ -3353,7 +3357,7 @@ textarea.form-control {
   /* Hero Section Typography & CTA Stacking */
   .hero {
     padding-top: calc(var(--header-height) + 1.25rem);
-    padding-bottom: 48px; /* [REVISION]: padding-bottom at least 48px */
+    padding-bottom: 64px; /* [REVISION]: padding-bottom at least 64px */
   }
 
   .hero-pill {

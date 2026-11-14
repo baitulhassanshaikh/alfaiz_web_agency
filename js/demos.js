@@ -70,7 +70,7 @@
       name: "The Grand Table — Fine Dining",
       category: "restaurant",
       description: "Luxury fine dining & culinary showcase with interactive menu, online table reservation, and chef highlights.",
-      image: "images/demos/alfaiz-restaurant-demo-01.png",
+      image: "images/demos/alfaiz-clothing-demo-02.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-01/",
       featured: true
     },
@@ -79,7 +79,7 @@
       name: "Elite Academy",
       category: "school",
       description: "Comprehensive educational institute portal featuring academic programs, online admissions, student portal, and faculty directory.",
-      image: "images/demos/alfaiz-school-demo-01.png",
+      image: "images/demos/eliteacademy.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-01/",
       featured: true
     },
@@ -88,7 +88,7 @@
       name: "The Grand Table — Bistro & Cafe",
       category: "restaurant",
       description: "Modern casual restaurant & cafe platform featuring daily specials, customer testimonials, and direct order inquiries.",
-      image: "images/demos/alfaiz-restaurant-demo-02.png",
+      image: "images/demos/alfaiz-dinner-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-02/",
       featured: false
     },
@@ -97,7 +97,7 @@
       name: "Apex International School",
       category: "school",
       description: "Interactive school & learning academy web platform featuring virtual campus tour, curriculum guides, and event calendar.",
-      image: "images/demos/alfaiz-school-demo-02.png",
+      image: "images/demos/school.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-02/",
       featured: false
     }

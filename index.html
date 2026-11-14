@@ -68,7 +68,8 @@
                     <a href="#hero" class="nav-link active">Home</a>
                     <a href="#services" class="nav-link">Services</a>
                     <a href="#packages" class="nav-link">Packages</a>
-                    <!-- [REVISION]: Portfolio nav link removed as requested -->
+                    <!-- [REVISION]: Dynamic Portfolio nav link -->
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
                     <a href="#process" class="nav-link">Process</a>
                     <a href="#faq" class="nav-link">FAQ</a>
                     <a href="#contact" class="nav-link">Contact</a>
@@ -989,9 +990,30 @@
                 </div>
             </section>
             <!-- ======================================================================
-         [REVISION]: Portfolio section (filter bar, prototype cards, and demo links)
-         has been completely removed as requested.
+         5. PORTFOLIO DEMO SECTION
+         [REVISION]: Reusable Dynamic Demo System driven 100% by js/demos.js
          ====================================================================== -->
+            <section class="section section-alt" id="portfolio">
+                <div class="container">
+                    <div class="section-header reveal reveal-up">
+                        <span class="section-tag">Live Websites</span>
+                        <h2 class="section-title">Explore Our Live Demo Websites</h2>
+                        <p class="section-subtitle">
+                            Production-grade web solutions engineered for high performance, bespoke branding, and frictionless conversion. Click any demo to launch the live site.
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Category Filter Bar (Populated automatically by js/demos.js) -->
+                    <div class="portfolio-filter-bar reveal reveal-up" id="portfolioFilterBar" role="tablist" aria-label="Filter demos by category">
+                        <!-- Populated dynamically by js/demos.js -->
+                    </div>
+
+                    <!-- Dynamic Portfolio Demo Grid (Populated automatically by js/demos.js) -->
+                    <div class="portfolio-grid" id="portfolioGrid" aria-live="polite">
+                        <!-- Populated dynamically by js/demos.js -->
+                    </div>
+                </div>
+            </section>
             <!-- ======================================================================
          6. PROCESS SECTION
          ====================================================================== -->
@@ -1571,7 +1593,10 @@
                             <li>
                                 <a href="#packages" class="footer-link">Packages</a>
                             </li>
-                            <!-- [REVISION]: Portfolio footer link removed as requested -->
+                            <!-- [REVISION]: Dynamic Portfolio footer link -->
+                            <li>
+                                <a href="#portfolio" class="footer-link">Portfolio</a>
+                            </li>
                             <li>
                                 <a href="#process" class="footer-link">Process</a>
                             </li>
@@ -1704,6 +1729,8 @@
                 </svg>
             </a>
         </aside>
+        <!-- Portfolio Demos Management Script (Central Dynamic System) -->
+        <script src="js/demos.js"></script>
         <!-- Main JavaScript File -->
         <script src="js/main.js"></script>
     </body>

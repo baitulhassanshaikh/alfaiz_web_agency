@@ -50,8 +50,6 @@
     { id: "clothing", name: "Clothing" },
     { id: "restaurant", name: "Restaurant" },
     { id: "school", name: "School" },
-    { id: "business", name: "Business" },
-    { id: "ecommerce", name: "E-commerce" }
   ];
 
   /* ==========================================================================
@@ -63,7 +61,7 @@
       name: "AL NOOR Clothing Store",
       category: "clothing",
       description: "Modern fashion & e-commerce apparel store featuring product catalogs, curated collections, and responsive shopping UI.",
-      image: "images/demos/clothing-demo-01.png",
+      image: "images/demos/alfaiz-clothing-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-clothing-demo-01/",
       featured: true
     },
@@ -72,7 +70,7 @@
       name: "The Grand Table — Fine Dining",
       category: "restaurant",
       description: "Luxury fine dining & culinary showcase with interactive menu, online table reservation, and chef highlights.",
-      image: "images/demos/restaurant-demo-01.png",
+      image: "images/demos/alfaiz-restaurant-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-01/",
       featured: true
     },
@@ -81,7 +79,7 @@
       name: "Elite Academy",
       category: "school",
       description: "Comprehensive educational institute portal featuring academic programs, online admissions, student portal, and faculty directory.",
-      image: "images/demos/school-demo-01.png",
+      image: "images/demos/alfaiz-school-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-01/",
       featured: true
     },
@@ -90,7 +88,7 @@
       name: "The Grand Table — Bistro & Cafe",
       category: "restaurant",
       description: "Modern casual restaurant & cafe platform featuring daily specials, customer testimonials, and direct order inquiries.",
-      image: "images/demos/restaurant-demo-02.png",
+      image: "images/demos/alfaiz-restaurant-demo-02.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-02/",
       featured: false
     },
@@ -99,7 +97,7 @@
       name: "Apex International School",
       category: "school",
       description: "Interactive school & learning academy web platform featuring virtual campus tour, curriculum guides, and event calendar.",
-      image: "images/demos/school-demo-02.png",
+      image: "images/demos/alfaiz-school-demo-02.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-02/",
       featured: false
     }
@@ -287,7 +285,7 @@
       if (qParam) {
         searchQuery = qParam.trim();
       }
-    } catch (_) {}
+    } catch (_) { }
   }
 
   function setFilter(newFilter) {

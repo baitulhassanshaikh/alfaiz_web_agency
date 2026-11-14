@@ -1,31 +1,41 @@
 /**
  * ============================================================================
- * ALFAIZ WEB AGENCY — PORTFOLIO DEMO MANAGEMENT SYSTEM
+ * ALFAIZ WEB AGENCY — DYNAMIC DEMO PORTFOLIO & CATEGORY MANAGEMENT SYSTEM
  * ============================================================================
  * 
- * Central data store & automatic rendering engine for all live demo websites.
+ * Central data store & automatic rendering engine for all live demo websites
+ * and portfolio categories.
  * 
  * ----------------------------------------------------------------------------
- * HOW TO ADD A NEW DEMO WEBSITE IN 3 EASY STEPS:
+ * 1. HOW TO MANAGE CATEGORIES:
  * ----------------------------------------------------------------------------
- * 1. Take a screenshot of your new website and save it in:
- *    images/demos/your-demo-name.png
+ * Edit the `demoCategories` array below:
+ * - ADD a category: Add `{ id: "mycategory", name: "My Category Name" }`
+ * - RENAME a category: Change `name: "New Name"` (cards & tabs update instantly)
+ * - REORDER categories: Change their position in the array
+ * - REMOVE a category: Remove it from the array
  * 
- * 2. Copy the template object below and paste it into the `portfolioDemos` array:
+ * NOTE: The 'All' category is permanent and will always be safely available.
+ * If you remove a category that demos still reference, those demos are NEVER
+ * lost — they are safely preserved in 'All' and under a fallback tab.
+ * 
+ * ----------------------------------------------------------------------------
+ * 2. HOW TO ADD A NEW DEMO WEBSITE:
+ * ----------------------------------------------------------------------------
+ * 1. Add your screenshot image into: images/demos/your-demo-name.png
+ * 2. Copy the template object into `portfolioDemos` below:
  * 
  *    {
- *      id: "my-new-demo",
- *      name: "My New Website Name",
- *      category: "Business", // Any category: "Clothing", "Restaurant", "School", "Real Estate", "SaaS", etc.
- *      description: "Clean description of the business website and its primary goals.",
- *      image: "images/demos/my-new-demo.png",
- *      liveUrl: "https://baitulhassanshaikh.github.io/my-new-demo/",
+ *      id: "my-demo-01",
+ *      name: "My Business Website",
+ *      category: "business", // Match any category id from demoCategories
+ *      description: "Clean description of the business website and its features.",
+ *      image: "images/demos/my-demo-01.png",
+ *      liveUrl: "https://baitulhassanshaikh.github.io/my-demo-01/",
  *      featured: false
  *    },
  * 
  * 3. Save this file and refresh your browser!
- *    The new demo and its category filter tab will appear automatically.
- *    NO HTML EDITING REQUIRED.
  * ============================================================================
  */
 
@@ -33,13 +43,25 @@
   'use strict';
 
   /* ==========================================================================
-     1. PORTFOLIO DEMOS DATA ARRAY
+     1. DEMO CATEGORIES CONFIGURATION
+     ========================================================================== */
+  const demoCategories = [
+    { id: "all", name: "All" },
+    { id: "clothing", name: "Clothing" },
+    { id: "restaurant", name: "Restaurant" },
+    { id: "school", name: "School" },
+    { id: "business", name: "Business" },
+    { id: "ecommerce", name: "E-commerce" }
+  ];
+
+  /* ==========================================================================
+     2. PORTFOLIO DEMOS DATA ARRAY
      ========================================================================== */
   const portfolioDemos = [
     {
       id: "clothing-demo-01",
       name: "AL NOOR Clothing Store",
-      category: "Clothing",
+      category: "clothing",
       description: "Modern fashion & e-commerce apparel store featuring product catalogs, curated collections, and responsive shopping UI.",
       image: "images/demos/clothing-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-clothing-demo-01/",
@@ -48,7 +70,7 @@
     {
       id: "restaurant-demo-01",
       name: "The Grand Table — Fine Dining",
-      category: "Restaurant",
+      category: "restaurant",
       description: "Luxury fine dining & culinary showcase with interactive menu, online table reservation, and chef highlights.",
       image: "images/demos/restaurant-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-01/",
@@ -57,7 +79,7 @@
     {
       id: "school-demo-01",
       name: "Elite Academy",
-      category: "School",
+      category: "school",
       description: "Comprehensive educational institute portal featuring academic programs, online admissions, student portal, and faculty directory.",
       image: "images/demos/school-demo-01.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-01/",
@@ -66,7 +88,7 @@
     {
       id: "restaurant-demo-02",
       name: "The Grand Table — Bistro & Cafe",
-      category: "Restaurant",
+      category: "restaurant",
       description: "Modern casual restaurant & cafe platform featuring daily specials, customer testimonials, and direct order inquiries.",
       image: "images/demos/restaurant-demo-02.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-restaurant-demo-02/",
@@ -75,31 +97,16 @@
     {
       id: "school-demo-02",
       name: "Apex International School",
-      category: "School",
+      category: "school",
       description: "Interactive school & learning academy web platform featuring virtual campus tour, curriculum guides, and event calendar.",
       image: "images/demos/school-demo-02.png",
       liveUrl: "https://baitulhassanshaikh.github.io/alfaiz-school-demo-02/",
       featured: false
     }
-    /*
-     * ------------------------------------------------------------------------
-     * TEMPLATE: Copy & paste this block to add your 6th, 7th, 8th demo:
-     * ------------------------------------------------------------------------
-     * ,
-     * {
-     *   id: "my-new-demo",
-     *   name: "My New Website Name",
-     *   category: "Business", // Any category: "Clothing", "Restaurant", "School", "Real Estate", "SaaS", etc.
-     *   description: "Clean description of the business website and its primary goals.",
-     *   image: "images/demos/my-new-demo.png",
-     *   liveUrl: "https://baitulhassanshaikh.github.io/my-new-demo/",
-     *   featured: false
-     * }
-     */
   ];
 
   /* ==========================================================================
-     2. HELPER UTILITIES (XSS Safe Escaping & Clean Domain Extraction)
+     3. HELPER UTILITIES (XSS Safe Escaping & Clean Domain Extraction)
      ========================================================================== */
   function escapeHtml(str) {
     if (str == null) return '';
@@ -130,7 +137,76 @@
   }
 
   /* ==========================================================================
-     3. CATEGORY ICON HELPER (SVG Icons for Visual Flair)
+     4. CATEGORY RESOLUTION & SAFETY ENGINE
+     ========================================================================== */
+  /**
+   * Resolves categories safely:
+   * 1. Guarantees 'All' is permanently present at index 0.
+   * 2. Detects any demos assigned to missing/deleted categories and auto-retains
+   *    them with a safe fallback filter + clear console warning.
+   */
+  const warnedOrphanCategories = new Set();
+
+  function getResolvedCategories() {
+    let list = Array.isArray(demoCategories) ? [...demoCategories] : [];
+
+    // Ensure 'all' is always present and first
+    const allIdx = list.findIndex(c => (c.id || '').toLowerCase().trim() === 'all');
+    if (allIdx === -1) {
+      list.unshift({ id: 'all', name: 'All' });
+    } else if (allIdx > 0) {
+      const [allItem] = list.splice(allIdx, 1);
+      list.unshift(allItem);
+    }
+
+    // Safety validation for demos assigned to unknown / removed categories
+    const knownCatIds = new Set(list.map(c => (c.id || '').toLowerCase().trim()));
+    const orphanedMap = new Map();
+
+    portfolioDemos.forEach(demo => {
+      const rawCat = (demo.category || '').toLowerCase().trim();
+      if (rawCat && rawCat !== 'all' && !knownCatIds.has(rawCat)) {
+        if (!orphanedMap.has(rawCat)) {
+          orphanedMap.set(rawCat, []);
+        }
+        orphanedMap.get(rawCat).push(demo);
+      }
+    });
+
+    if (orphanedMap.size > 0) {
+      orphanedMap.forEach((demos, catId) => {
+        if (!warnedOrphanCategories.has(catId)) {
+          warnedOrphanCategories.add(catId);
+          console.warn(
+            `[ALFAIZ Demos Safety Notice]: Category "${catId}" is not registered in demoCategories, but is referenced by ${demos.length} demo(s): [${demos.map(d => d.name || d.title || d.id).join(', ')}]. Demos are safely preserved in "All" and under the fallback filter.`
+          );
+        }
+        const fallbackName = catId.charAt(0).toUpperCase() + catId.slice(1);
+        list.push({
+          id: catId,
+          name: fallbackName,
+          isFallback: true
+        });
+      });
+    }
+
+    return list;
+  }
+
+  /**
+   * Returns human-readable category name from ID
+   */
+  function getCategoryDisplayName(catId) {
+    if (!catId) return 'Website';
+    const resolved = getResolvedCategories();
+    const match = resolved.find(c => (c.id || '').toLowerCase().trim() === String(catId).toLowerCase().trim());
+    if (match && match.name) return match.name;
+    const raw = String(catId);
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  }
+
+  /* ==========================================================================
+     5. CATEGORY ICON HELPER (SVG Icons for Visual Flair)
      ========================================================================== */
   function getCategoryIcon(category) {
     const cat = (category || '').toLowerCase().trim();
@@ -188,9 +264,31 @@
   }
 
   /* ==========================================================================
-     4. STATE & FILTERING
+     6. ENVIRONMENT & STATE
      ========================================================================== */
+  const isArchivePage = Boolean(
+    document.getElementById('demoSearchInput') ||
+    document.body.classList.contains('page-archive') ||
+    (typeof window !== 'undefined' && window.location && window.location.pathname.endsWith('demos.html'))
+  );
+
   let activeFilter = 'all';
+  let searchQuery = '';
+
+  // Parse initial query params (e.g. ?category=restaurant or ?q=cafe)
+  if (typeof window !== 'undefined' && window.location && window.location.search) {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('category');
+      const qParam = urlParams.get('q') || urlParams.get('search');
+      if (catParam) {
+        activeFilter = catParam.toLowerCase().trim();
+      }
+      if (qParam) {
+        searchQuery = qParam.trim();
+      }
+    } catch (_) {}
+  }
 
   function setFilter(newFilter) {
     activeFilter = (newFilter || 'all').toLowerCase().trim();
@@ -203,46 +301,34 @@
       btn.setAttribute('aria-selected', String(isMatch));
     });
 
-    // Render cards for the active filter
-    renderPortfolioGrid(portfolioDemos, activeFilter);
+    renderPortfolio();
   }
 
   /* ==========================================================================
-     5. RENDER DYNAMIC CATEGORY FILTER BUTTONS
+     7. RENDER DYNAMIC CATEGORY FILTER BUTTONS
      ========================================================================== */
-  function renderFilterBar(demos) {
+  function renderFilterBar() {
     const filterContainer = document.getElementById('portfolioFilterBar');
     if (!filterContainer) return;
 
-    // Dynamically collect all unique categories from available demos
-    const categories = ['all'];
-    demos.forEach(demo => {
-      if (demo.category) {
-        const cat = demo.category.trim();
-        if (!categories.some(c => c.toLowerCase() === cat.toLowerCase())) {
-          categories.push(cat);
-        }
-      }
-    });
-
+    const categories = getResolvedCategories();
     filterContainer.innerHTML = '';
 
     categories.forEach(cat => {
-      const isAll = cat.toLowerCase() === 'all';
-      const label = isAll ? 'All Websites' : cat;
-      const filterValue = cat.toLowerCase();
-      const isActive = activeFilter === filterValue;
+      const filterId = (cat.id || '').toLowerCase().trim();
+      const label = cat.name || (filterId === 'all' ? 'All' : filterId);
+      const isActive = activeFilter === filterId;
 
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = `filter-btn ${isActive ? 'active' : ''}`;
-      btn.setAttribute('data-filter', filterValue);
+      btn.setAttribute('data-filter', filterId);
       btn.setAttribute('role', 'tab');
       btn.setAttribute('aria-selected', String(isActive));
       btn.textContent = label;
 
       btn.addEventListener('click', () => {
-        setFilter(filterValue);
+        setFilter(filterId);
       });
 
       filterContainer.appendChild(btn);
@@ -250,52 +336,103 @@
   }
 
   /* ==========================================================================
-     6. RENDER DYNAMIC PORTFOLIO DEMO CARDS
+     8. FILTERING & SEARCH ENGINE
      ========================================================================== */
-  function renderPortfolioGrid(demos, currentFilter) {
+  function getFilteredDemos() {
+    const categories = getResolvedCategories();
+    const validCatIds = new Set(categories.map(c => (c.id || '').toLowerCase().trim()));
+
+    // Fallback: If activeFilter is invalid, default to 'all'
+    const currentFilter = validCatIds.has(activeFilter) ? activeFilter : 'all';
+
+    return portfolioDemos.filter(demo => {
+      // 1. Category Matching
+      const demoCat = (demo.category || '').toLowerCase().trim();
+      const matchesCategory = (currentFilter === 'all') || (demoCat === currentFilter);
+      if (!matchesCategory) return false;
+
+      // 2. Search Query Matching (name, description, category)
+      if (!searchQuery) return true;
+      const q = searchQuery.toLowerCase().trim();
+      const name = String(demo.name || demo.title || '').toLowerCase();
+      const desc = String(demo.description || '').toLowerCase();
+      const catId = demoCat;
+      const catName = getCategoryDisplayName(demo.category).toLowerCase();
+
+      return name.includes(q) || desc.includes(q) || catId.includes(q) || catName.includes(q);
+    });
+  }
+
+  /* ==========================================================================
+     9. RENDER PORTFOLIO GRID & VIEW ALL BUTTON
+     ========================================================================== */
+  function renderPortfolio() {
     const gridContainer = document.getElementById('portfolioGrid');
     if (!gridContainer) return;
 
-    // Filter list
-    const filtered = currentFilter === 'all'
-      ? demos
-      : demos.filter(d => (d.category || '').toLowerCase().trim() === currentFilter.toLowerCase());
+    const filtered = getFilteredDemos();
+    const isHome = !isArchivePage;
 
-    if (filtered.length === 0) {
+    // Homepage limit: display up to the first 10 demo cards in All or category
+    let displayedDemos = filtered;
+    if (isHome && filtered.length > 10) {
+      displayedDemos = filtered.slice(0, 10);
+    }
+
+    // Update search status text if on archive page
+    renderSearchStatus(filtered.length, portfolioDemos.length);
+
+    // Empty state
+    if (displayedDemos.length === 0) {
+      const isSearchActive = Boolean(searchQuery);
       gridContainer.innerHTML = `
         <div class="portfolio-empty" style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1rem;">
           <div class="empty-icon" style="width: 48px; height: 48px; margin: 0 auto 1rem; color: var(--color-primary);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </div>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-navy-900); margin-bottom: 0.5rem;">No demos found in this category</h3>
-          <p style="color: var(--color-text-muted); margin-bottom: 1.25rem;">We are continuously building new live demos. Check back soon or view all projects.</p>
-          <button type="button" class="btn btn-outline btn-sm" id="resetDemoFilterBtn">View All Demos</button>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-navy-900); margin-bottom: 0.5rem;">
+            ${isSearchActive ? `No websites match "${escapeHtml(searchQuery)}"` : 'No demos found in this category'}
+          </h3>
+          <p style="color: var(--color-text-muted); margin-bottom: 1.25rem;">
+            ${isSearchActive ? 'Try searching with different keywords or clear your search to view all projects.' : 'We are continuously building new live demos. Check back soon or view all projects.'}
+          </p>
+          <button type="button" class="btn btn-outline btn-sm" id="resetDemoFilterBtn">
+            ${isSearchActive ? 'Clear Search' : 'View All Websites'}
+          </button>
         </div>
       `;
 
       const resetBtn = document.getElementById('resetDemoFilterBtn');
       if (resetBtn) {
-        resetBtn.addEventListener('click', () => setFilter('all'));
+        resetBtn.addEventListener('click', () => {
+          if (isSearchActive) {
+            clearSearch();
+          } else {
+            setFilter('all');
+          }
+        });
       }
+
+      renderViewAllButton(0, isHome);
       return;
     }
 
     // Build cards HTML
     let html = '';
-    filtered.forEach((demo, index) => {
-      const displayDomain = extractDisplayDomain(demo.liveUrl);
+    displayedDemos.forEach((demo, index) => {
+      const displayDomain = extractDisplayDomain(demo.liveUrl || demo.url);
       const iconSvg = getCategoryIcon(demo.category);
+      const categoryDisplayName = getCategoryDisplayName(demo.category);
       const delayClass = `delay-${(index % 3) + 1}`;
-      const safeId = escapeHtml(demo.id);
-      const safeName = escapeHtml(demo.name);
-      const safeCategory = escapeHtml(demo.category);
-      const safeDesc = escapeHtml(demo.description);
-      const safeLiveUrl = sanitizeUrl(demo.liveUrl);
-      const safeImage = escapeHtml(demo.image);
+      const safeId = escapeHtml(demo.id || `demo-${index}`);
+      const safeName = escapeHtml(demo.name || demo.title || 'Live Website Demo');
+      const safeCategory = escapeHtml(categoryDisplayName);
+      const safeDesc = escapeHtml(demo.description || 'Production-grade web solution engineered by ALFAIZ Web Agency.');
+      const safeLiveUrl = sanitizeUrl(demo.liveUrl || demo.url);
+      const safeImage = escapeHtml(demo.image || demo.img || '');
 
       const imageTag = safeImage
         ? `<img
@@ -394,6 +531,9 @@
 
     gridContainer.innerHTML = html;
 
+    // View All button on homepage (Requirement 4)
+    renderViewAllButton(filtered.length, isHome);
+
     // Trigger scroll reveal observer for newly created cards
     if (window.portfolioRevealObserver) {
       gridContainer.querySelectorAll('.reveal').forEach(el => {
@@ -409,7 +549,104 @@
   }
 
   /* ==========================================================================
-     7. INITIALIZATION
+     10. HOMEPAGE "VIEW ALL DEMOS" BUTTON (Requirement 4)
+     ========================================================================== */
+  function renderViewAllButton(totalFilteredCount, isHome) {
+    const wrap = document.getElementById('portfolioViewAllWrap');
+    if (!wrap) return;
+
+    // Only display on homepage when filtered demos exceed 10
+    if (!isHome || totalFilteredCount <= 10) {
+      wrap.innerHTML = '';
+      return;
+    }
+
+    const targetUrl = activeFilter === 'all'
+      ? 'demos.html'
+      : `demos.html?category=${encodeURIComponent(activeFilter)}`;
+
+    const label = activeFilter === 'all'
+      ? 'View All Demos'
+      : `View All ${getCategoryDisplayName(activeFilter)} Demos`;
+
+    wrap.innerHTML = `
+      <a href="${targetUrl}" class="btn btn-view-all reveal reveal-up" aria-label="${label}">
+        <span>${escapeHtml(label)}</span>
+        <span class="view-all-badge">${totalFilteredCount}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    `;
+
+    if (window.portfolioRevealObserver) {
+      wrap.querySelectorAll('.reveal').forEach(el => window.portfolioRevealObserver.observe(el));
+    }
+  }
+
+  /* ==========================================================================
+     11. SEARCH CONTROLS & STATUS (Requirement 5)
+     ========================================================================== */
+  function renderSearchStatus(visibleCount, totalCount) {
+    const statusEl = document.getElementById('demoSearchStatus');
+    const visibleEl = document.getElementById('demoVisibleCount');
+    const totalEl = document.getElementById('demoTotalCount');
+
+    if (visibleEl) visibleEl.textContent = visibleCount;
+    if (totalEl) totalEl.textContent = totalCount;
+
+    if (statusEl) {
+      if (searchQuery) {
+        statusEl.innerHTML = `Found <strong>${visibleCount}</strong> website${visibleCount === 1 ? '' : 's'} matching "<strong>${escapeHtml(searchQuery)}</strong>"`;
+      } else if (activeFilter !== 'all') {
+        statusEl.innerHTML = `Showing <strong>${visibleCount}</strong> ${escapeHtml(getCategoryDisplayName(activeFilter))} website${visibleCount === 1 ? '' : 's'}`;
+      } else {
+        statusEl.innerHTML = `Showing <strong>${visibleCount}</strong> of <strong>${totalCount}</strong> live websites`;
+      }
+    }
+  }
+
+  function setupSearch() {
+    const searchInput = document.getElementById('demoSearchInput');
+    const clearBtn = document.getElementById('demoSearchClear');
+    if (!searchInput) return;
+
+    if (searchQuery) {
+      searchInput.value = searchQuery;
+      if (clearBtn) clearBtn.style.display = 'flex';
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      if (clearBtn) {
+        clearBtn.style.display = searchQuery ? 'flex' : 'none';
+      }
+      renderPortfolio();
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        clearSearch();
+      });
+    }
+  }
+
+  function clearSearch() {
+    const searchInput = document.getElementById('demoSearchInput');
+    const clearBtn = document.getElementById('demoSearchClear');
+    searchQuery = '';
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+    }
+    if (clearBtn) {
+      clearBtn.style.display = 'none';
+    }
+    renderPortfolio();
+  }
+
+  /* ==========================================================================
+     12. INITIALIZATION
      ========================================================================== */
   function initPortfolio() {
     const filterContainer = document.getElementById('portfolioFilterBar');
@@ -420,7 +657,7 @@
     }
 
     // Scroll reveal observer for dynamically created elements
-    if ('IntersectionObserver' in window) {
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
       window.portfolioRevealObserver = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach(entry => {
@@ -434,8 +671,9 @@
       );
     }
 
-    renderFilterBar(portfolioDemos);
-    setFilter('all');
+    setupSearch();
+    renderFilterBar();
+    setFilter(activeFilter);
   }
 
   if (document.readyState === 'loading') {
@@ -444,11 +682,23 @@
     initPortfolio();
   }
 
-  // Global API: Available for adding demos dynamically via console or scripts
+  /* ==========================================================================
+     13. GLOBAL API EXPORTS
+     ========================================================================== */
+  window.demoCategories = demoCategories;
   window.portfolioDemos = portfolioDemos;
   window.reloadPortfolioDemos = () => {
-    renderFilterBar(portfolioDemos);
-    setFilter(activeFilter);
+    renderFilterBar();
+    renderPortfolio();
+  };
+  window.setDemoFilter = setFilter;
+  window.setDemoSearch = (query) => {
+    searchQuery = query ? String(query).trim() : '';
+    const input = document.getElementById('demoSearchInput');
+    const clearBtn = document.getElementById('demoSearchClear');
+    if (input) input.value = searchQuery;
+    if (clearBtn) clearBtn.style.display = searchQuery ? 'flex' : 'none';
+    renderPortfolio();
   };
 
 })();
